@@ -1,10 +1,10 @@
 ################################################################################
-### R BASICS WORKSHOP                                                					          ###
-### PRESENTACIÓN 1.1: Introducción                           			         ###
-###                                                               						                      ###
-### Unida de Servicios Bioinformáticos    						                      ###
-### Instituto Nacional de Medicina Genómica                                               			          ###
-### Website: github.com/hachepunto/R_Basics_workshop			                                   ### 
+### R BASICS WORKSHOP                                                        ###
+### PRESENTACIÓN 1.1: Introducción                           	             ###
+###                                                               	     ###
+### Unida de Servicios Bioinformáticos    				     ###
+### Instituto Nacional de Medicina Genómica                                  ###
+### Website: github.com/hachepunto/bioinformatics			     ### 
 ################################################################################
 
 ## OBJECTIVE:
