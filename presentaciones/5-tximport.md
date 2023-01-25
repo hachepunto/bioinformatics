@@ -116,7 +116,7 @@ write.table(table.out.names,
             col.names=NA)
 ```
 
-Paso 3: Expresión diferencial con DESeq2
+Paso 3: Expresión diferencial con DESeq2  https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html
 
 ```
 sampleTable <- data.frame(condition = samples$Condicion)
