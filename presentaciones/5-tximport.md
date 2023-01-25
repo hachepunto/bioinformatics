@@ -1,34 +1,42 @@
 
- Ejercicio para obtener de datos cuantificados con Kallisto:
- 1. una matriz de expresión normalizada
- 2. una matriz de expresión de cuentas sin normalizar
- 3. análisis de expresión diferencial 
+ ## Ejercicio de expresión diferencial a partir de archivos de cuantificación de Kallisto usando tximport y DESeq2:
+ 
+ ### Objetivos:
+ 1. una matriz de expresión normalizada con los nombres y los ids de los genes
+ 2. tabla de genes diferencialmente expresados 
 
- Pasos:
+ ### Pasos:
  1. Instalar las herramientas que vamos a utilizar: BUStoolsR, tximport y DESeq2
- 2. usar tximport para integrar los archivos de cada muestra individual 
-    (a nivel de transcrito) en una sola matriz a nivel de gen.
-    tximport es una función que toma a) un archivo de referencia con los ids de 
-    los transcritos y el id del gene al que pertenecen, y b) los archivos de expresión
-    2.1. cargar nuestros datos de expresión
-    2.2. generar archivo de referencia a partir del siguiente archivo:
+ 2. Usar tximport para integrar los archivos de cada muestra individual (a nivel de transcrito) en una sola matriz a nivel de gen. Tximport es una función que toma a) un archivo de referencia con los ids de los transcritos y el id del gene al que pertenecen, y b) los archivos de expresión.
+    1. cargar nuestros datos de expresión
+    2. generar archivo de referencia a partir del siguiente archivo:
  https://drive.google.com/file/d/1CIRVrYvNxy0Odzyr7yrVs9My82nZ7E2J/view?usp=sharing
-    2.3. correr tximport con la referencia y nuestros datos de kallisto
+    3. correr tximport con la referencia y nuestros datos de kallisto
 
+---
 
- Paso 1: instalar las herramientas que vamos a utilizar
-
+Paso 1: instalar las herramientas que vamos a utilizar
+```
 install.packages("remotes")
 remotes::install_github("lambdamoses/BUStoolsR")
 BiocManager::install("tximport")
+```
+
+
+Mientras instalamos revisemos la documentación de tximport
 https://bioconductor.org/packages/release/bioc/html/tximport.html
 
+```
 library(BUSpaRse)
 library(tximport)
 library(DESeq2)
+```
 
- Paso 2 
+
+Paso 2 
+´´´
 help("tximport")
+´´´
 
  Paso 2.1: cargar nuestros datos de expresión
 
