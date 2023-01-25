@@ -34,69 +34,91 @@ library(DESeq2)
 
 
 Paso 2 
-´´´
+```
 help("tximport")
-´´´
+```
 
- Paso 2.1: cargar nuestros datos de expresión
+Paso 2.1: cargar nuestros datos de expresión
 
- cargamos el archivo con los nombres de las muestras y 
- las rutas a los archivos de expresión generados por Kallisto
- el archivo sample_sheet.tsv debe tener las columnas:
- Muestra, Condición y Archivo separado por tabs 
+Cargamos el archivo con los nombres de las muestras y las rutas a los archivos de expresión generados por Kallisto. El archivo sample_sheet.tsv debe tener las columnas: Muestra, Condición y Archivo separado por tabs.
+
+```
 samples <- read.table("sample_sheet.tsv",sep="\t",header=T)
+```
 
- con este comando inspeccionamos los primeros renglones
+con este comando inspeccionamos los primeros renglones
+
+```
 head(samples)
+```
 
- la funcion tximport espera un vector con las rutas de los archivo de 
- expresión con el atributo names que corresponda al nombre de la muestra
+La función tximport espera un vector con las rutas de los archivo de expresión con el atributo names que corresponda al nombre de la muestra
+
+```
 files <- as.vector(samples$Archivo)
 names(files) <- samples$Muestra 
 head(files)
+```
 
+Paso 2.2: generar archivo de referencia
 
- Paso 2.2: generar archivo de referencia
-
+```
 myIDS <- tr2g_gtf("~/Dropbox/References/Homo_sapiens.GRCh38.104.chr22.gtf",
                   get_transcriptome = F)
- exploramos la tabla que acabamos de generar ...
+```
+
+exploramos la tabla que acabamos de generar ...
+
+```
 head(myIDS)
 sum(is.na(myIDS$gene_name))
 length(myIDS$gene_name)
+```
 
- nuestro archivo de referencia solo necesita estas dos columnas:
+nuestro archivo de referencia solo necesita estas dos columnas:
+
+```
 tx2gene <- myIDS[,c("transcript","gene")]
 head(tx2gene)
+```
+ 
+Paso 2.3: ejecutar tximport
 
-
- Paso 2.3: ejecutar tximport
-
+```
 txi <- tximport(files, 
                 type = "kallisto", 
                 tx2gene = tx2gene)
 str(txi)
 head(txi$counts)
 head(txi$abundance)
+```
 
- Creamos matriz de expresión normalizada (TPM)
+Creamos matriz de expresión normalizada(TPM) 
+
+```
 table.out <- txi$abundance
 head(table.out)
 dim(table.out)
+```
+ 
+mejoramos la matriz de expresión incluyendo los nombres de los genes también
 
- mejoramos la matriz de expresión incluyendo los nombres de los genes también
+```
 myIDS$gene_name <- ifelse(is.na(myIDS$gene_name), myIDS$gene, myIDS$gene_name)
 myNewIds <- unique(myIDS[,2:3])
 dim(myNewIds)
 table.out.names <- merge(myNewIds,table.out,by.x='gene',by.y=0)
-dim(table.out)
 dim(table.out.names)
 head(table.out.names)
 write.table(table.out.names, 
-            file="data/exprTable.tsv", sep="\t", 
+            file="exprTable.tsv", sep="\t", 
             quote=F, 
             col.names=NA)
- Paso 3: Expresión diferencial con DESeq2
+```
+
+Paso 3: Expresión diferencial con DESeq2
+
+```
 sampleTable <- data.frame(condition = samples$Condicion)
 rownames(sampleTable) <- samples$Muestra
 head(sampleTable)
@@ -105,8 +127,11 @@ dds <- DESeq(dds)
 resultsNames(dds)
 res <- results(dds)
 head(res)
+```
 
- Ejercicio para ver como se calcula el log2foldchange
+Ejercicio para ver como se calcula el log2foldchange
+
+```
 cts <- counts(dds, normalized=T)
 head(cts)
 cts['ENSG00000008735.14',]
@@ -129,4 +154,5 @@ lfc_u_h <- u - h
 lfc_u_h
 
 log2(mu/mh)
+```
 
