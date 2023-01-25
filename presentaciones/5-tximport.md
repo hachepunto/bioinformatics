@@ -40,7 +40,7 @@ help("tximport")
 
 Paso 2.1: cargar nuestros datos de expresión
 
-Cargamos el archivo con los nombres de las muestras y las rutas a los archivos de expresión generados por Kallisto. El archivo sample_sheet.tsv debe tener las columnas: Muestra, Condición y Archivo separado por tabs.
+Cargamos el archivo con los nombres de las muestras y las rutas a los archivos de expresión generados por Kallisto. El archivo sample_sheet.tsv debe tener las columnas: Muestra, Condicion y Archivo separado por tabs. Nota: es importante no poner acentos dentro de sus archivos.
 
 ```
 samples <- read.table("sample_sheet.tsv",sep="\t",header=T)
@@ -63,7 +63,7 @@ head(files)
 Paso 2.2: generar archivo de referencia
 
 ```
-myIDS <- tr2g_gtf("~/Dropbox/References/Homo_sapiens.GRCh38.104.chr22.gtf",
+myIDS <- tr2g_gtf("Homo_sapiens.GRCh38.104.chr22.gtf",
                   get_transcriptome = F)
 ```
 
