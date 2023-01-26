@@ -21,6 +21,7 @@ Paso 1: instalar las herramientas que vamos a utilizar
 #remotes::install_github("lambdamoses/BUStoolsR")
 BiocManager::install("BUSpaRse")
 BiocManager::install("tximport")
+install.packages("pheatmap")
 ```
 
 
