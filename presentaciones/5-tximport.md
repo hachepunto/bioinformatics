@@ -17,8 +17,9 @@
 
 Paso 1: instalar las herramientas que vamos a utilizar
 ```
-install.packages("remotes")
-remotes::install_github("lambdamoses/BUStoolsR")
+#install.packages("remotes")
+#remotes::install_github("lambdamoses/BUStoolsR")
+BiocManager::install("BUSpaRse")
 BiocManager::install("tximport")
 ```
 
@@ -61,6 +62,7 @@ head(files)
 ```
 
 Paso 2.2: generar archivo de referencia
+Nota: BUSpaRse tiene otras herramientas para crear la tabla que necesitamos a partir de otros formatos (ej. archivo fasta o base de datos de Ensembl que se puede acceder dentro de R)
 
 ```
 myIDS <- tr2g_gtf("Homo_sapiens.GRCh38.104.chr22.gtf",
