@@ -202,3 +202,7 @@ log2mat <- log2(mat)
 my_hmap <- pheatmap(log2mat,
                     main="DEGs UHR vs HBR")
 ```
+
+GSEA
+
+https://www.youtube.com/watch?v=Mi6u4r0lJvo
