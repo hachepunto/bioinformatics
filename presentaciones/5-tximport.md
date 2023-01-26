@@ -1,18 +1,18 @@
 
- ## Ejercicio de expresión diferencial a partir de archivos de cuantificación de Kallisto usando tximport y DESeq2:
+## Ejercicio de expresión diferencial a partir de archivos de cuantificación de Kallisto usando tximport y DESeq2:
  
- ### Objetivos:
- 1. una matriz de expresión normalizada con los nombres y los ids de los genes
- 2. tabla de genes diferencialmente expresados 
+### Objetivos:
+1. una matriz de expresión normalizada con los nombres y los ids de los genes
+2. tabla de genes diferencialmente expresados 
 
- ### Pasos:
- 1. Instalar las herramientas que vamos a utilizar: BUStoolsR, tximport y DESeq2
- 2. Usar tximport para integrar los archivos de cada muestra individual (a nivel de transcrito) en una sola matriz a nivel de gen. Tximport es una función que toma a) un archivo de referencia con los ids de los transcritos y el id del gene al que pertenecen, y b) los archivos de expresión.
-    1. cargar nuestros datos de expresión
-    2. generar archivo de referencia a partir del siguiente archivo:
+### Pasos:
+1. Instalar las herramientas que vamos a utilizar: BUStoolsR, tximport y DESeq2
+2. Usar tximport para integrar los archivos de cada muestra individual (a nivel de transcrito) en una sola matriz a nivel de gen. Tximport es una función que toma a) un archivo de referencia con los ids de los transcritos y el id del gene al que pertenecen, y b) los archivos de expresión.
+   1. cargar nuestros datos de expresión
+   2. generar archivo de referencia a partir del siguiente archivo:
  https://drive.google.com/file/d/1CIRVrYvNxy0Odzyr7yrVs9My82nZ7E2J/view?usp=sharing
-    3. correr tximport con la referencia y nuestros datos de kallisto
-
+   3. correr tximport con la referencia y nuestros datos de kallisto
+3. Utilizar DESeq2 para identificar genes diferencialmente expresados
 ---
 
 Paso 1: instalar las herramientas que vamos a utilizar
@@ -27,6 +27,8 @@ BiocManager::install("tximport")
 Mientras instalamos revisemos la documentación de tximport
 https://bioconductor.org/packages/release/bioc/html/tximport.html
 
+Cargamos las bibliotecas que vamos a utilizar:
+
 ```
 library(BUSpaRse)
 library(tximport)
@@ -34,14 +36,21 @@ library(DESeq2)
 ```
 
 
-Paso 2 
+Paso 2:
+
+Empecemos por consultar la ayuda de tximport para saber que parámetros recibe la función.
 ```
 help("tximport")
 ```
 
 Paso 2.1: cargar nuestros datos de expresión
 
-Cargamos el archivo con los nombres de las muestras y las rutas a los archivos de expresión generados por Kallisto. El archivo sample_sheet.tsv debe tener las columnas: Muestra, Condicion y Archivo separado por tabs. Nota: es importante no poner acentos dentro de sus archivos.
+Cargamos el archivo con los nombres de las muestras y las rutas a los archivos de expresión generados por Kallisto. El archivo sample_sheet.tsv debe tener las columnas: Muestra, Condicion y Archivo separado por tabs. 
+
+Notas: 
+1. es importante no poner acentos dentro de sus archivos.
+2. si tu archivo no está separado por tabs puedes usar otro separador en el argumento sep, por ejemplo sep="," o sep=";"
+3. usamos header=T cuando nuestro archivo tiene encabezado, en este caso los nombres de las columnas. (T=True)
 
 ```
 samples <- read.table("sample_sheet.tsv",sep="\t",header=T)
