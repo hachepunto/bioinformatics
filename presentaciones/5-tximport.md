@@ -118,26 +118,31 @@ mejoramos la matriz de expresión incluyendo los nombres de los genes también
 myIDS$gene_name <- ifelse(is.na(myIDS$gene_name), myIDS$gene, myIDS$gene_name)
 myNewIds <- unique(myIDS[,2:3])
 dim(myNewIds)
+head(myNewIds)
+
 table.out.names <- merge(myNewIds,table.out,by.x='gene',by.y=0)
 dim(table.out.names)
 head(table.out.names)
 write.table(table.out.names, 
             file="exprTable.tsv", sep="\t", 
             quote=F, 
-            col.names=NA)
+            col.names=T,
+            row.names=F)
 ```
 
 Paso 3: Expresión diferencial con DESeq2  https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html
 
 ```
-sampleTable <- data.frame(condition = samples$Condicion)
-rownames(sampleTable) <- samples$Muestra
-head(sampleTable)
-dds <- DESeqDataSetFromTximport(txi, sampleTable, ~condition)
+coldata <- data.frame(condition = samples$Condicion)
+coldata$condition <- factor(coldata$condition)
+rownames(coldata) <- samples$Muestra
+head(coldata)
+dds <- DESeqDataSetFromTximport(txi, coldata, ~condition)
 dds <- DESeq(dds)
 resultsNames(dds)
 res <- results(dds)
 head(res)
+plotMA(res)
 ```
 
 Ejercicio para ver como se calcula el log2foldchange
@@ -167,3 +172,32 @@ lfc_u_h
 log2(mu/mh)
 ```
 
+Como filtrar nuestra tabla de resultados para tener solo los DEGs significativos:
+
+```
+degs<-subset(res, (!is.na(res$padj) & 
+                     res$pvalue<0.05 & 
+                     baseMean>=50 & res$padj < 0.05 & 
+                     abs(res$log2FoldChange)>1))
+```
+
+Como hacer un heatmap de nuestros resultados:
+```
+library (pheatmap)
+top <- degs[order(degs$pvalue),]
+myTpm <- subset(table.out, rownames(table.out) %in% rownames(top[1:10,]) )
+dim(myTpm)
+log2mat <- log2(myTpm)
+my_hmap <- pheatmap(log2mat,
+                    main="DEGs UHR vs HBR")
+
+
+myTpm <- subset(table.out.names, table.out.names$gene %in% rownames(top[1:10,]))
+dim(myTpm)
+head(myTpm)
+mat <- myTpm[,-c(1:2)]
+rownames(mat) <- myTpm$gene_name
+log2mat <- log2(mat)
+my_hmap <- pheatmap(log2mat,
+                    main="DEGs UHR vs HBR")
+```
