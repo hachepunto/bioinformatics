@@ -1,9 +1,15 @@
 ################################################################################
 ### Introducción a R                                                         ###
-### Funciones y argumentos en R                                              ###
-###                                	                                         ###
+###    ____              _                                                   ###
+###   / __/_ _____  ____(_)__  ___  ___ ___   __ __                          ###
+###  / _// // / _ \/ __/ / _ \/ _ \/ -_|_-<  / // /                          ###
+### /_/  \_,_/_//_/\__/_/\___/_//_/\__/___/  \_, /                           ###
+###  ___ ________ ___ ____ _  ___ ___  / /__/___/__                          ###
+### / _ `/ __/ _ `/ // /  ' \/ -_) _ \/ __/ _ \(_-<                          ###
+### \_,_/_/  \_, /\_,_/_/_/_/\__/_//_/\__/\___/___/                          ###
+###         /___/                                                            ###
 ### Instituto Nacional de Medicina Genómica                                  ###
-### Enero 2023                                                               ###
+### Enero 2024                                                               ###
 ### Hugo Tovar <hatovar@inmegen.gob.mx>                                      ### 
 ################################################################################
 
@@ -70,7 +76,7 @@ seq(0.5, 5, 20)
 seq(from = 5, to = 20, by = 0.5)
 seq(by = 0.5, from = 5, to = 20)
 
-# 6. ¡Algunos argumentos tienen valores predeterminados! 
+# 6. Algunos argumentos tienen valores predeterminados.
 
 seq(to=20)
 
@@ -84,6 +90,7 @@ seq(to=20)
 help(seq)
 
 # o usa el símbolo de interrogación:
+
 ?seq
 
 # 8. Cuando aparecen *...* en el archivo de ayuda de una función frecuentemente significan  
@@ -105,26 +112,20 @@ seq(from=5,to=20,by=0.5)
 seq(from = 5, to = 20, by = 0.5)
 seq     (   from     =     5,      to     =     20,      by     =     0.5   )
 
+# Guía de estilo en R
 # https://google.github.io/styleguide/Rguide.html
 
 ### D. UNOS EJEMPLOS ADICIONALES DE FUNCIONES Y ARGUMENTOS #####################
 
 rep(x = "R", times = 10)
-
 rpois(n = 10, lambda = 5)
-
 rpois(n = 10) # ¿Por qué esta no funciona?
-
 rnorm(n = 10)
-
 rnorm(n = 100, mean = 10, sd = 5)
-
 paste("R", "Core", "Team", sep = "_")
-
 paste("R", "Core", "Team", sep = " ")
 
 c(19, 4, 2, 6, 2)
-
 sum(19, 4, 2, 6, 2)
 
 
@@ -142,6 +143,7 @@ mean(x = 19, 4, 2, 6, 2) # Esta versión NO hace lo mismo
 mean(x = rnorm(100))
 
 # Otro ejemplo un poco más complejo:
+
 rnorm(n = 50, mean = 0, sd = 1) # Genera 50 valores de una distribución normal con 
                                 # un promedio de 0 y una desviación estándar de 1
                            
@@ -260,11 +262,12 @@ update.packages("gprofiler2")
 
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
-BiocManager::install(version = "3.13")
+BiocManager::install(version = "3.18")
 
 # instalar un paquete:
 
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#     install.packages("BiocManager")
+
 BiocManager::install("affy")
 
