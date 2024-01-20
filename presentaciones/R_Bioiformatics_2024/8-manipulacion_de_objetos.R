@@ -1,9 +1,16 @@
 ################################################################################
 ### Introducción a R                                                         ###
-### Manipulación de objetos                                                  ###
-###                                	                                         ###
+###    __  ___          _           __         _  __                         ###
+###   /  |/  /__ ____  (_)__  __ __/ /__ _____(_)/_/ ___                     ###
+###  / /|_/ / _ `/ _ \/ / _ \/ // / / _ `/ __/ / _ \/ _ \                    ###
+### /_/  /_/\_,_/_//_/_/ .__/\_,_/_/\_,_/\__/_/\___/_//_/                    ###
+###      __           /_/    _     __                                        ###
+###  ___/ /__   ___  / /    (_)__ / /____  ___                               ###
+### / _  / -_) / _ \/ _ \  / / -_) __/ _ \(_-<                               ###
+### \_,_/\__/  \___/_.__/_/ /\__/\__/\___/___/                               ###
+###                    |___/                                                 ###
 ### Instituto Nacional de Medicina Genómica                                  ###
-### Enero 2023                                                               ###
+### Enero 2024                                                               ###
 ### Hugo Tovar <hatovar@inmegen.gob.mx>                                      ### 
 ################################################################################
 
@@ -16,14 +23,14 @@
 
 # Esta lección está dividida en las siguientes secciones:
 
-## Tipos de indexación ##
+## Clases de indexación ##
 # A. Indexación numérica
 # B. Indexación lógica
 # C. Indexación por nombres
 
 # D. Reemplazar elementos de un objeto
 
-## Indexación por clases de objetos ##
+## Indexación por tipos de objetos ##
 # E. Indexación de vectores
 # F. Indexación de matrices
 # G. Indexación de marcos de datos
@@ -67,7 +74,7 @@ genes[c(7,7,7)]
 expression[c(2,5,7)]
 
 
-## IMPORTANTE: en la indexación numérica se puede utilizar el signo de resta *-*
+## IMPORTANTE: en la indexación numérica se puede utilizar el signo de menos *-*
 ## para extraer todos los elementos excepto aquellos que se indican entre corchetes
 
 genes[2] # Esto extrae el segundo elemento
@@ -87,7 +94,20 @@ expression < 15 # Esto genera un vector lógico donde TRUE son valores de *expre
 
 expression[expression<15] # Esto extrae los elementos de *expression* que son menores que 15
 
+# Podríamos salvar ese vector lógico en un objeto
+
+menoresde15 <- expression < 15
+menoresde15
+
+# Y usarlo para subsetear otro vector cualquiera del mismo tamaño
+
+genes[menoresde15]
+
+# lo que es lo mismo que 
+
 genes[expression<15] 
+
+# otro ejemplo
 
 genes=="gen_b"            
 expression[genes=="gen_b"] 
@@ -96,6 +116,7 @@ expression[genes=="gen_b"]
 
 which(genes=="gen_b")
 which(expression<15)
+which(menoresde15)
 
 # También se pueden utilizar condiciones más complejas
 
@@ -127,18 +148,23 @@ genes
 names(genes) <- letters[length(expression):1] # Aquí es mejor no utilizar nombres repetidos
 genes
 
-expression["p"] # Extrae el valor en *expression* que tiene el nombre "3"
-genes["l"] 
+expression["p"] # Extrae el valor en *expression* 
+                # que tiene el nombre "p"
+
+genes["l"] # Extrae el nombre del gen en *genes*
+           # que tiene el nombre "l"
 
 
 # También se pueden extraer varios elementos por nombre
 
 expression[c("o", "n", "g")]
 
-# Una manera de hacerlo sería
+# ¿Cómo estraeríamos los que *NO* son "o", "n" ni "g"
 
-expression[!names(expression) %in% c("o", "n", "g")]
-expression[-which(names(expression) %in% c("o", "n", "g"))]
+# Dos maneras de hacerlo sería
+
+expression[!(names(expression) %in% c("o", "n", "g"))]
+expression[-(which(names(expression) %in% c("o", "n", "g")))]
 
 ### E. REEMPLAZAR VALORES EN UN OBJETO #########################################
 # El sistema de indexación nos permite reemplazar o re-escribir los valores de
@@ -147,13 +173,23 @@ expression[-which(names(expression) %in% c("o", "n", "g"))]
 genes
 genes[c(1,4,18)]
 
+expression
+expression[c("o", "n", "g")]
 
+# reemplazo
 genes[c(1,4,18)] <- "gen_x"
-
-genes <- c(genes, "gen_aslj")
-
 genes
 
+expression[c("o", "n", "g")] <- c(100, 100, 100)
+expression
+
+
+# Adición de un elemento
+genes <- c(genes, "gen_y")
+genes
+
+expression <- c(expression, x = 0)
+expression
 
 ### F. INDEXACIÓN DE VECTORES ##################################################
 # La indexación de vectores la practicamos ya en tipos de indexación. Los valores
@@ -166,7 +202,10 @@ genes
 # practicar indexación de matrices. Esto contiene datos de emisiones de CO2
 # por país (columnas) por año (filas).
 
-CO2 <- read.table(file=file.choose(), header=TRUE, row.names=1, sep="\t")
+CO2 <- read.table(file = "Datasets/data_carbondioxideyearlyemissions.txt",
+                  header = TRUE,
+                  row.names = 1,
+                  sep = "\t")
 
 dim(CO2)
 class(CO2) # La función *read.table* siempre produce un marco de datos
@@ -184,8 +223,8 @@ CO2[150, 30] # Esto extrae el valor en la fila 150 y la columna 30 de la matriz
 rownames(CO2)[150]
 colnames(CO2)[30]
 
-## IMPORTANTE: siempre las filas se especifican primero, seguido de una coma, y 
-## finalmente las columnas
+## IMPORTANTE: siempre las filas se especifican primero, 
+## seguido de una coma, y finalmente las columnas. Como coordenadas.
 
 CO2[200, 45]
 CO2[45, 200]
@@ -211,7 +250,8 @@ CO2[, -100]
 # Las matrices también se pueden indexar por los nombres de las filas o las columnas
 
 CO2[2010, ] # Esto genera un error porque no hay 2010 filas
-CO2["2010", ] # Esto NO genera un error porque estamos haciendo una indexación de la fila llamada "2010" 
+CO2["2010", ] # Esto NO genera un error porque estamos haciendo una 
+              # indexación de la fila llamada "2010" 
 
 CO2["2010", "Mexico"] 
                       
@@ -312,8 +352,10 @@ species <- iris$Species
 
 class(species)
 levels(species)
+species
 
 species <- as.vector(species)
+species
 class(species)
 unique(species) # Crea una lista de valores únicos
 table(species)
