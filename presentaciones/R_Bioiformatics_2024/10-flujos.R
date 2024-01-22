@@ -1,11 +1,15 @@
 ################################################################################
 ### Introducción a R                                                         ###
-### Flujos                                                                   ###
-###                                                                          ###
+###    ______       _                                                        ###
+###   / __/ /_ __  (_)__  ___                                                ###
+###  / _// / // / / / _ \(_-<                                                ###
+### /_/ /_/\_,_/_/ /\___/___/                                                ###
+###           |___/                                                          ###
 ### Instituto Nacional de Medicina Genómica                                  ###
-### Enero 2023                                                               ###
+### Enero 2024                                                               ###
 ### Hugo Tovar <hatovar@inmegen.gob.mx>                                      ### 
 ################################################################################
+
 ### INTRODUCCION ###############################################################
 
 # En R hay una serie de elementos que te permiten controlar el flujo del código.
@@ -230,64 +234,6 @@ while(i < max(v))
 {
 	print(i)
 	i <- i+1
-}
-
-
-#####################
-## Ejemplo fácil 3 ##
-#####################
-
-Bp <- 0.1 
-Dp <- 0.1 
-Np <- 1-Bp-Dp
-
-max.t <- 100
-time <- 0
-abund <- 10
-
-plot(c(0, max.t), c(0, 100), type="n")
-
-
-while(abund>0 & time<= max.t)
-{
-	change <- sample(c(-1,0,1), size=abund, prob=c(Dp, Np, Bp), replace=TRUE)
-
-	abund <- abund + sum(change)
-	time <- time + 1
-
-	points(time, abund, pch=16, col="black")
-}
-
-
-
-#####################
-## Ejemplo fácil 4 ##
-#####################
-
-## El bucle "WHILE DATING" ##
-
-you <- runif(1, 0, 100) # Tu personalidad en un número
-your.pickiness.score <- 0.1 # Qué tan cerca a tu personalidad quieres que sea tu
-                            # esposa/esposo
-
-date <- 0 # El número inicial de personas con las que has salido
-missmatch <- Inf # Tu diferencia inicial en personalidad antes de empezar a salir 
-                 # con gente 
-
-while(missmatch > your.pickiness.score)
-{
-  date <- date + 1
-
-	they <- runif(1, 0, 100)
-	missmatch <- abs(you - they)
-
-
-	if(missmatch <= your.pickiness.score)
-	{
-	  print("Congratulations, you are getting married!!")
-	  print(paste("You've dated", date, "people", sep=" "))
-	}
-
 }
 
 
