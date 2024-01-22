@@ -1,9 +1,12 @@
 ################################################################################
 ### Introducción a R                                                         ###
-### Gráficos                                                                 ###
+###   _____      __ ____                                                     ###
+###  / ___/_____/_// _(_)______  ___                                         ###
+### / (_ / __/ _ `/ _/ / __/ _ \(_-<                                         ###
+### \___/_/  \_,_/_//_/\__/\___/___/                                         ###
 ###                                                                          ###
 ### Instituto Nacional de Medicina Genómica                                  ###
-### Enero 2023                                                               ###
+### Enero 2024                                                               ###
 ### Hugo Tovar <hatovar@inmegen.gob.mx>                                      ### 
 ################################################################################
 
@@ -21,7 +24,7 @@
 # A. Funciones gráficas de alto nivel (high-level functions) 
 # B. Funciones gráficas de bajo nivel (low-level functions) 
 # C. Parámetros gráficos modificados por la función *par* 
-# D. Abrir múltiples ventanas y como partir una ventana gráfica
+# D. Partir una ventana de gráficos
 # E. Guardar gráficos como archivos 
 
 
@@ -220,7 +223,7 @@ legend(x="topright", legend=c("Sepals", "Petals"), fill=c("gray70", "black"),
 
 
 
-### D. Abrir múltiples ventanas y partir una ventana gráfica ###################
+### D. Partir una ventana gráficos ###################
 
 ## 1. Crear una ventana con múltiples paneles con *par* ##
 
