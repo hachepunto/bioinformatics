@@ -1,9 +1,15 @@
 ################################################################################
 ### Introducción a R                                                         ###
-### Las funciones apply de R                                                 ###
-###                                                                          ###
+###    ____              _                                                   ###
+###   / __/_ _____  ____(_)__  ___  ___ ___                                  ###
+###  / _// // / _ \/ __/ / _ \/ _ \/ -_|_-<                                  ###
+### /_/  \_,_/_//_/\__/_/\___/_//_/\__/___/                                  ###
+###  ___ ____  ___  / /_ __                                                  ###
+### / _ `/ _ \/ _ \/ / // /                                                  ###
+### \_,_/ .__/ .__/_/\_, /                                                   ###
+###    /_/  /_/     /___/                                                    ###
 ### Instituto Nacional de Medicina Genómica                                  ###
-### Enero 2023                                                               ###
+### Enero 2024                                                               ###
 ### Hugo Tovar <hatovar@inmegen.gob.mx>                                      ### 
 ################################################################################
 
@@ -73,7 +79,7 @@ apply(X = matriz, MARGIN = 2, FUN = sum)
 ### Ejemplo datos genómicos
 
 ### PREPARACIÓN DE DATOS: Comencemos por cargar unos datos de expresión de 
-# ENSEMBLE de Drosophila Los renglones son genes y hay información de cuatro 
+# ENSEMBLE de Drosophila. Los renglones son genes y hay información de cuatro 
 # tiempos (2, 6, 8 y 10 hrs) y otros metadatos.
 
 data <- read.table("Datasets/rpkm_clase.tab", header = TRUE, sep="\t")
@@ -89,6 +95,9 @@ head(expressed)
 
 
 rpkm <- cbind(expressed$rpkm2, expressed$rpkm6, expressed$rpkm8, expressed$rpkm10)
+
+rownames(rpkm) <- expressed$flybase_id
+colnames(rpkm) <- c("rpkm2", "rpkm6", "rpkm8", "rpkm10")
 
 head(rpkm)
 is.matrix(rpkm)
@@ -172,14 +181,13 @@ matriz[1]
 ### Ejemplo con datos genómicos
 
 rpkm.df <- as.data.frame(rpkm)
-names(rpkm.df) <- c("t2", "t6", "t8", "t10")
 head(rpkm.df)
 
 # Podemos usar una función definida por nosotros dentro de las funciones *apply*.
 # Quiero agregarle 5 al valor de expresion de todos los genes del tiempo 2
 
-head(rpkm.df$t2)
-lapply(head(rpkm.df$t2), function(x){x+5} )
+head(rpkm.df$rpkm2)
+lapply(head(rpkm.df$rpkm2), function(x){x+5} )
 
 
 ######################## sapply ########################
