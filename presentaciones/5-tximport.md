@@ -120,7 +120,30 @@ table.out <- txi$abundance
 head(table.out)
 dim(table.out)
 ```
- 
+
+Ejercicio para ver como se obtiene el tpm:
+
+```
+# aqui estoy leyendo la tabla
+exprTable <- read.table("datos/salida_kallisto/abundance.tsv",
+                        sep="\t",
+                        header=T)
+head(exprTable)
+
+# aqui vamos a calcular el valor de rpk
+exprTable$rpk <- exprTable$est_counts / exprTable$eff_length
+exprTable[10:16,]
+
+scaling_factor <- sum(exprTable$rpk) / 1000000
+scaling_factor
+
+exprTable$myTPM <- exprTable$rpk / scaling_factor
+exprTable[10:16,-6]
+
+totalTPM <- sum(exprTable$tpm)
+totalTPM
+```
+
 mejoramos la matriz de expresión incluyendo los nombres de los genes también
 
 ```
