@@ -12,7 +12,7 @@
    3. correr tximport con la referencia y nuestros datos de kallisto
 3. Utilizar DESeq2 para identificar genes diferencialmente expresados
 ---
-Paso 0: Abrir Rstudio en drona
+Paso 0: Abrir Rstudio en drona en un navegador
 ```
 drona.inmegen.gob.mx:8787 
 ```
