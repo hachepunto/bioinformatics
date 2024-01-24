@@ -231,7 +231,7 @@ my_hmap <- pheatmap(log2mat,
                     main="DEGs UHR vs HBR")
 
 
-myTpm <- subset(table.out.names, table.out.names$gene %in% rownames(top[1:10,]))
+myTpm <- subset(table.out.names, table.out.names$gene_id %in% rownames(top[1:10,]))
 dim(myTpm)
 head(myTpm)
 mat <- myTpm[,-c(1:2)]
