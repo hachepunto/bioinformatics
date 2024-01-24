@@ -63,21 +63,18 @@ help("tximport")
 
 Paso 1.2: cargar nuestros datos de expresión
 
-Cargamos el archivo con los nombres de las muestras y las rutas a los archivos de expresión generados por Kallisto. El archivo sample_sheet.tsv debe tener las columnas: Muestra, Condicion y Archivo separado por tabs. 
-
-Notas: 
-1. es importante no poner acentos dentro de sus archivos.
-2. si tu archivo no está separado por tabs puedes usar otro separador en el argumento sep, por ejemplo sep="," o sep=";"
-3. usamos header=T cuando nuestro archivo tiene encabezado, en este caso los nombres de las columnas. (T=True)
+Cargamos el archivo con los nombres de las muestras y las rutas a los archivos de expresión generados por Kallisto. 
 
 ```
-samples <- read.table("sample_sheet.tsv",sep="\t",header=T)
+samples <- read.table("mis_muestras.tsv",sep="\t",header=F)
+samples
 ```
 
-con este comando inspeccionamos los primeros renglones
+vamos a ponerle nombre a las columnas
 
 ```
-head(samples)
+colnames(samples) <- c("Muestra","Condicion","Archivo")
+samples
 ```
 
 La función tximport espera un vector con las rutas de los archivo de expresión con el atributo names que corresponda al nombre de la muestra
@@ -85,7 +82,7 @@ La función tximport espera un vector con las rutas de los archivo de expresión
 ```
 files <- as.vector(samples$Archivo)
 names(files) <- samples$Muestra 
-head(files)
+files
 ```
 
 Paso 2.2: generar archivo de referencia
