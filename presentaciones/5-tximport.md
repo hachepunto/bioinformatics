@@ -13,12 +13,12 @@
    3. correr tximport con la referencia y nuestros datos de kallisto
 3. Utilizar DESeq2 para identificar genes diferencialmente expresados
 ---
-Paso 0: Abrir Rstudio en drona en un navegador
+## Paso 0: Abrir Rstudio en drona en un navegador
 ```
 drona.inmegen.gob.mx:8787 
 ```
 
-Paso 1: crear el archivo con la información de nuestras muestras
+## Paso 1: crear el archivo con la información de nuestras muestras
 
 En la terminal de Rstudio (ojo: no la consola) ejecuta los siguientes comandos:
 
@@ -36,7 +36,7 @@ more muestras.tsv
 ```
 
 
-Paso 1: Tximport 
+## Paso 2: Tximport 
 
 https://bioconductor.org/packages/release/bioc/html/tximport.html
 
@@ -60,7 +60,7 @@ help("tximport")
 ```
 
 
-Paso 2.1: cargar archivo con la información de las muestras
+### Paso 2.1: cargar archivo con la información de las muestras
 
 Cargamos el archivo con los nombres de las muestras y las rutas a los archivos de expresión generados por Kallisto. 
 
@@ -84,7 +84,7 @@ names(files) <- samples$Muestra
 files
 ```
 
-Paso 2.2: cargar el archivo de referencia 
+### Paso 2.2: cargar el archivo de referencia 
 
 ```
 refChr22 <- read.table("/home/instalaciones/geneId_transcriptId_geneName_chr22.txt", sep="\t", header=F)
@@ -100,7 +100,7 @@ tx2gene <- refChr22[,c("transcript_id","gene_id")]
 head(tx2gene)
 ```
  
-Paso 2.3: ejecutar tximport
+### Paso 2.3: ejecutar tximport
 
 ```
 txi <- tximport(files, 
@@ -121,8 +121,10 @@ head(table.out)
 dim(table.out)
 ```
 
-Ejercicio para ver como se obtiene el tpm:
+### Ejercicio para ver como se obtiene el tpm:
+
 Para entender como se obtiene este valor a partir del número de lecturas seguimos las instrucciones para calcularlo de: https://www.rna-seqblog.com/rpkm-fpkm-and-tpm-clearly-explained/ 
+
 "Here’s how you calculate TPM: 
  1. Divide the read counts by the length of each gene in kilobases. This gives you reads per kilobase (RPK). 
  2. Count up all the RPK values in a sample and divide this number by 1,000,000. This is your “per million” scaling factor. 
@@ -162,7 +164,9 @@ write.table(table.out.names,
             row.names=F)
 ```
 
-Paso 3: Expresión diferencial con DESeq2  https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html
+## Paso 3: Expresión diferencial con DESeq2  
+
+https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html
 
 ```
 coldata <- data.frame(condition = samples$Condicion)
@@ -177,7 +181,7 @@ head(res)
 plotMA(res)
 ```
 
-Ejercicio para ver como se calcula el log2foldchange
+### Ejercicio para ver como se calcula el log2foldchange
 
 ```
 cts <- counts(dds, normalized=T)
