@@ -8,10 +8,9 @@
 ### Pasos:
 1. Crear un archivo con la información de nuestras muestras
 2. Usar tximport para integrar los archivos de cada muestra individual (a nivel de transcrito) en una sola matriz a nivel de gen. Tximport es una función que toma a) un archivo de referencia con los ids de los transcritos y el id del gene al que pertenecen, y b) los archivos de expresión.
-   1. crear un archivo con la información de nuestras muestras
-   2. cargar nuestros datos de expresión
-   3. cargar nuestro archivo de referencia
-   4. correr tximport con la referencia y nuestros datos de kallisto
+   1. cargar mis_muestras.tsv
+   2. cargar el archivo de referencia (geneId_transcriptId_geneName_chr22.txt)
+   3. correr tximport con la referencia y nuestros datos de kallisto
 3. Utilizar DESeq2 para identificar genes diferencialmente expresados
 ---
 Paso 0: Abrir Rstudio en drona en un navegador
@@ -61,7 +60,7 @@ help("tximport")
 ```
 
 
-Paso 1.2: cargar nuestros datos de expresión
+Paso 2.1: cargar archivo con la información de las muestras
 
 Cargamos el archivo con los nombres de las muestras y las rutas a los archivos de expresión generados por Kallisto. 
 
@@ -85,26 +84,19 @@ names(files) <- samples$Muestra
 files
 ```
 
-Paso 2.2: generar archivo de referencia
-Nota: BUSpaRse tiene otras herramientas para crear la tabla que necesitamos a partir de otros formatos (ej. archivo fasta o base de datos de Ensembl que se puede acceder dentro de R)
+Paso 2.2: cargar el archivo de referencia 
 
 ```
-myIDS <- tr2g_gtf("Homo_sapiens.GRCh38.104.chr22.gtf",
-                  get_transcriptome = F)
+refChr22 <- read.table("/home/instalaciones/geneId_transcriptId_geneName_chr22.txt", sep="\t", header=F)
+colnames(refChr22) <- c("gene_id","transcript_id","gene_name")
 ```
 
 exploramos la tabla que acabamos de generar ...
 
-```
-head(myIDS)
-sum(is.na(myIDS$gene_name))
-length(myIDS$gene_name)
-```
-
 nuestro archivo de referencia solo necesita estas dos columnas:
 
 ```
-tx2gene <- myIDS[,c("transcript","gene")]
+tx2gene <- refChr22[,c("transcript_id","gene_id")]
 head(tx2gene)
 ```
  
@@ -113,7 +105,9 @@ Paso 2.3: ejecutar tximport
 ```
 txi <- tximport(files, 
                 type = "kallisto", 
-                tx2gene = tx2gene)
+                tx2gene = tx2gene,
+                ignoreTxVersion = T,
+                dropInfReps=TRUE)
 str(txi)
 head(txi$counts)
 head(txi$abundance)
