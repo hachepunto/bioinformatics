@@ -6,10 +6,12 @@
 2. obtener la lista de genes diferencialmente expresados 
 
 ### Pasos:
-1. Usar tximport para integrar los archivos de cada muestra individual (a nivel de transcrito) en una sola matriz a nivel de gen. Tximport es una función que toma a) un archivo de referencia con los ids de los transcritos y el id del gene al que pertenecen, y b) los archivos de expresión.
-   1. cargar nuestros datos de expresión
-   2. cargar nuestro archivo de referencia
-   3. correr tximport con la referencia y nuestros datos de kallisto
+1. Crear un archivo con la información de nuestras muestras
+2. Usar tximport para integrar los archivos de cada muestra individual (a nivel de transcrito) en una sola matriz a nivel de gen. Tximport es una función que toma a) un archivo de referencia con los ids de los transcritos y el id del gene al que pertenecen, y b) los archivos de expresión.
+   1. crear un archivo con la información de nuestras muestras
+   2. cargar nuestros datos de expresión
+   3. cargar nuestro archivo de referencia
+   4. correr tximport con la referencia y nuestros datos de kallisto
 3. Utilizar DESeq2 para identificar genes diferencialmente expresados
 ---
 Paso 0: Abrir Rstudio en drona en un navegador
@@ -17,9 +19,34 @@ Paso 0: Abrir Rstudio en drona en un navegador
 drona.inmegen.gob.mx:8787 
 ```
 
-Paso 1: Ver que es tximport
+Paso 1: crear el archivo con la información de nuestras muestras
+
+En la terminal de Rstudio (ojo: no la consola) ejecuta los siguientes comandos:
+
+```
+ls ~/datos.taller/salida_kallisto_*/abundance.tsv | cut -d"/" -f5 | cut -d"_" -f3-4 > ids.txt
+ls ~/datos.taller/salida_kallisto_*/abundance.tsv | cut -d"/" -f5 | cut -d"_" -f3 > condicion.txt
+ls ~/datos.taller/salida_kallisto_*/abundance.tsv > rutas.txt
+paste ids.txt condicion.txt rutas.txt > mis_muestras.tsv
+```
+
+Confirma que en el archivo mis_muestras.tsv tengas 3 columnas: 1) id de la muestra, 2) el tipo o la condicion de la muestra y 3) la ruta absoluta donde se encuentran los archivos de abundancias para cada muestra (6 en total) generados por kallisto.
+
+```
+more muestras.tsv
+```
+
+
+Paso 1: Tximport 
 
 https://bioconductor.org/packages/release/bioc/html/tximport.html
+
+Para empezar a crear un script con todos los pasos que vamos a ejecutar, abran en Rstudio un Rscript:
+File -> New File -> Rscript
+
+Hagan click en el icono del diskette para guardar el archivo y ponganle de nombre: ejercicio_deseq2.R
+
+De ahora en adelante todos los pasos que hagamos los copian primero en su Rscript y desde ahi los ejecutan en la consola, igual como lo hicieron en las sesiones pasadas de R.
 
 Cargamos las bibliotecas que vamos a utilizar:
 
@@ -28,15 +55,13 @@ library(tximport)
 library(DESeq2)
 ```
 
-
-Paso 2:
-
 Empecemos por consultar la ayuda de tximport para saber que parámetros recibe la función.
 ```
 help("tximport")
 ```
 
-Paso 2.1: cargar nuestros datos de expresión
+
+Paso 1.2: cargar nuestros datos de expresión
 
 Cargamos el archivo con los nombres de las muestras y las rutas a los archivos de expresión generados por Kallisto. El archivo sample_sheet.tsv debe tener las columnas: Muestra, Condicion y Archivo separado por tabs. 
 
