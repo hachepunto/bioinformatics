@@ -121,6 +121,20 @@ head(table.out)
 dim(table.out)
 ```
 
+mejoramos la matriz de expresión incluyendo los nombres de los genes también
+
+```
+geneId_geneName <- unique(refChr22[,-2])
+table.out.names <- merge(geneId_geneName,table.out,by.x='gene_id',by.y=0)
+dim(table.out.names)
+head(table.out.names)
+write.table(table.out.names, 
+            file="exprTable.tsv", sep="\t", 
+            quote=F, 
+            col.names=T,
+            row.names=F)
+```
+
 ### Ejercicio para ver como se obtiene el tpm:
 
 Para entender como se obtiene este valor a partir del número de lecturas seguimos las instrucciones para calcularlo de: https://www.rna-seqblog.com/rpkm-fpkm-and-tpm-clearly-explained/ 
@@ -150,19 +164,7 @@ totalTPM <- sum(m1$tpm)
 totalTPM
 ```
 
-mejoramos la matriz de expresión incluyendo los nombres de los genes también
 
-```
-geneId_geneName <- unique(refChr22[,-2])
-table.out.names <- merge(geneId_geneName,table.out,by.x='gene_id',by.y=0)
-dim(table.out.names)
-head(table.out.names)
-write.table(table.out.names, 
-            file="exprTable.tsv", sep="\t", 
-            quote=F, 
-            col.names=T,
-            row.names=F)
-```
 
 ## Paso 3: Expresión diferencial con DESeq2  
 
