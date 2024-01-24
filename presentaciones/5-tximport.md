@@ -124,12 +124,8 @@ dim(table.out)
 mejoramos la matriz de expresión incluyendo los nombres de los genes también
 
 ```
-myIDS$gene_name <- ifelse(is.na(myIDS$gene_name), myIDS$gene, myIDS$gene_name)
-myNewIds <- unique(myIDS[,2:3])
-dim(myNewIds)
-head(myNewIds)
-
-table.out.names <- merge(myNewIds,table.out,by.x='gene',by.y=0)
+geneId_geneName <- unique(refChr22[,-2])
+table.out.names <- merge(geneId_geneName,table.out,by.x='gene_id',by.y=0)
 dim(table.out.names)
 head(table.out.names)
 write.table(table.out.names, 
@@ -159,13 +155,13 @@ Ejercicio para ver como se calcula el log2foldchange
 ```
 cts <- counts(dds, normalized=T)
 head(cts)
-cts['ENSG00000008735.14',]
-x.HBR <-cts['ENSG00000008735.14',1:3]
+cts['ENSG00000008735',]
+x.HBR <-cts['ENSG00000008735',1:3]
 x.HBR
 mh <- mean(x.HBR)
 mh 
 
-x.UHR<-cts['ENSG00000008735.14',4:6]
+x.UHR<-cts['ENSG00000008735',4:6]
 x.UHR
 mu <- mean(x.UHR)
 mu
@@ -179,6 +175,7 @@ lfc_u_h <- u - h
 lfc_u_h
 
 log2(mu/mh)
+res['ENSG00000008735',]
 ```
 
 Como filtrar nuestra tabla de resultados para tener solo los DEGs significativos:
