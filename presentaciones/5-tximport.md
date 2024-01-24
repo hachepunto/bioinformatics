@@ -122,25 +122,29 @@ dim(table.out)
 ```
 
 Ejercicio para ver como se obtiene el tpm:
+Para entender como se obtiene este valor a partir del número de lecturas seguimos las instrucciones para calcularlo de: https://www.rna-seqblog.com/rpkm-fpkm-and-tpm-clearly-explained/ 
+"Here’s how you calculate TPM: 
+ 1. Divide the read counts by the length of each gene in kilobases. This gives you reads per kilobase (RPK). 
+ 2. Count up all the RPK values in a sample and divide this number by 1,000,000. This is your “per million” scaling factor. 
+ 3. Divide the RPK values by the “per million” scaling factor. This gives you TPM. "
 
 ```
-# aqui estoy leyendo la tabla
-exprTable <- read.table("datos/salida_kallisto/abundance.tsv",
+m1 <- read.table(samples[1,"Archivo"],
                         sep="\t",
                         header=T)
-head(exprTable)
+head(m1)
 
 # aqui vamos a calcular el valor de rpk
-exprTable$rpk <- exprTable$est_counts / exprTable$eff_length
-exprTable[10:16,]
+m1$rpk <- m1$est_counts / m1$eff_length
+m1[1:20,]
 
-scaling_factor <- sum(exprTable$rpk) / 1000000
+scaling_factor <- sum(m1$rpk) / 1000000
 scaling_factor
 
-exprTable$myTPM <- exprTable$rpk / scaling_factor
-exprTable[10:16,-6]
+m1$miTPM <- m1$rpk / scaling_factor
+m1[1:20,-6]
 
-totalTPM <- sum(exprTable$tpm)
+totalTPM <- sum(m1$tpm)
 totalTPM
 ```
 
