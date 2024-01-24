@@ -2,36 +2,24 @@
 ## Ejercicio de expresión diferencial a partir de archivos de cuantificación de Kallisto usando tximport y DESeq2:
  
 ### Objetivos:
-1. una matriz de expresión normalizada con los nombres y los ids de los genes
-2. tabla de genes diferencialmente expresados 
+1. obtener una matriz de expresión normalizada con los nombres y otra con los ids de los genes
+2. obtener la lista de genes diferencialmente expresados 
 
 ### Pasos:
-1. Instalar las herramientas que vamos a utilizar: BUStoolsR, tximport y DESeq2
-2. Usar tximport para integrar los archivos de cada muestra individual (a nivel de transcrito) en una sola matriz a nivel de gen. Tximport es una función que toma a) un archivo de referencia con los ids de los transcritos y el id del gene al que pertenecen, y b) los archivos de expresión.
+1. Usar tximport para integrar los archivos de cada muestra individual (a nivel de transcrito) en una sola matriz a nivel de gen. Tximport es una función que toma a) un archivo de referencia con los ids de los transcritos y el id del gene al que pertenecen, y b) los archivos de expresión.
    1. cargar nuestros datos de expresión
-   2. generar archivo de referencia a partir del siguiente archivo:
- https://drive.google.com/file/d/1CIRVrYvNxy0Odzyr7yrVs9My82nZ7E2J/view?usp=sharing
+   2. cargar nuestro archivo de referencia
    3. correr tximport con la referencia y nuestros datos de kallisto
 3. Utilizar DESeq2 para identificar genes diferencialmente expresados
 ---
 
-Paso 1: instalar las herramientas que vamos a utilizar
-```
-#install.packages("remotes")
-#remotes::install_github("lambdamoses/BUStoolsR")
-BiocManager::install("BUSpaRse")
-BiocManager::install("tximport")
-install.packages("pheatmap")
-```
+Paso 1: Ver que es tximport
 
-
-Mientras instalamos revisemos la documentación de tximport
 https://bioconductor.org/packages/release/bioc/html/tximport.html
 
 Cargamos las bibliotecas que vamos a utilizar:
 
 ```
-library(BUSpaRse)
 library(tximport)
 library(DESeq2)
 ```
