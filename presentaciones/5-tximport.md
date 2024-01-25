@@ -3,7 +3,8 @@
  
 ### Objetivos:
 1. obtener una matriz de expresión normalizada con los nombres y otra con los ids de los genes
-2. obtener la lista de genes diferencialmente expresados 
+2. obtener la lista de genes diferencialmente expresados
+3. obtener las vías de señalización enriquecidas
 
 ### Pasos:
 1. Crear un archivo con la información de nuestras muestras
@@ -12,7 +13,9 @@
    2. cargar el archivo de referencia (geneId_transcriptId_geneName_chr22.txt)
    3. correr tximport con la referencia y nuestros datos de kallisto
 3. Utilizar DESeq2 para identificar genes diferencialmente expresados
+4. Utilizar EnrichR para identificar las vías de señalización enriquecidas
 ---
+
 ## Paso 0: Abrir Rstudio en drona en un navegador
 ```
 drona.inmegen.gob.mx:8787 
@@ -164,8 +167,6 @@ totalTPM <- sum(m1$tpm)
 totalTPM
 ```
 
-
-
 ## Paso 3: Expresión diferencial con DESeq2  
 
 https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html
@@ -241,6 +242,63 @@ my_hmap <- pheatmap(log2mat,
                     main="DEGs UHR vs HBR")
 ```
 
+## Paso 4. usar EnrichR
+
+EnrichR es un programa que te permite consultar múltiples bases de datos a la vez donde puedes ver que vías de señalización o rutas metabólicas están sobrerepresentadas o enriquecidas en un conjunto de genes en particular.
+
+https://maayanlab.cloud/Enrichr/
+
+EnrichR no se puede descargar, es un programa que tiene sólo existe en su propio sitio web, pero existe un paquete de R que nos permite conectarnos a la página web de EnrichR y ejecutarlo desde nuestra computadora.
+
+https://cran.r-project.org/web/packages/enrichR/vignettes/enrichR.html
+
+```
+# si no estuviera instaldado lo puedes instalar con el siguiente comando:
+#install.packages("enrichR")
+
+# cargamos el paquete en nuestra sesión
+library(enrichR)
+```
+
+Lo primero ahora es que checar que la página de EnrichR esté respondiendo
+
+```
+websiteLive <- getOption("enrichR.live")
+```
+
+EnrichR tienen bases de datos no sólo para humanos, con el siguiente código escogemos la base de datos para homo sapiens. 
+
+```
+if (websiteLive) {
+  listEnrichrSites()
+  setEnrichrSite("Enrichr") # Human genes
+}
+```
+
+if (websiteLive) dbs <- listEnrichrDbs()
+View(dbs)
+grep("2023",dbs$libraryName,value=T)
+
+misDBS <- c("GO_Biological_Process_2023","WikiPathway_2023_Human")
+if (websiteLive) {
+  enriched <- enrichr(c("Runx1", "Gfi1", "Gfi1b", "Spi1", "Gata1", "Kdr"), misDBS)
+}
+
+if (websiteLive) head(enriched[["GO_Biological_Process_2023"]])
+if (websiteLive) head(enriched[["WikiPathway_2023_Human"]])
+
+topNombres <- merge(as.data.frame(top),geneId_geneName,by.x=0,by.y="gene_id")
+
+if (websiteLive) {
+  enriched <- enrichr(topNombres$gene_name, misDBS)
+}
+
+if (websiteLive) head(enriched[["GO_Biological_Process_2023"]])
+if (websiteLive) head(enriched[["WikiPathway_2023_Human"]])
+
+if (websiteLive) {
+  plotEnrich(enriched[[1]], showTerms = 20, numChar = 40, y = "Count", orderBy = "P.value")
+}
 GSEA
 
 https://www.youtube.com/watch?v=Mi6u4r0lJvo
