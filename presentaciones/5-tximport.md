@@ -35,7 +35,7 @@ paste ids.txt condicion.txt rutas.txt > mis_muestras.tsv
 Confirma que en el archivo mis_muestras.tsv tengas 3 columnas: 1) id de la muestra, 2) el tipo o la condicion de la muestra y 3) la ruta absoluta donde se encuentran los archivos de abundancias para cada muestra (6 en total) generados por kallisto.
 
 ```
-more muestras.tsv
+more mis_muestras.tsv
 ```
 
 
