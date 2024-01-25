@@ -50,6 +50,12 @@ Hagan click en el icono del diskette para guardar el archivo y ponganle de nombr
 
 De ahora en adelante todos los pasos que hagamos los copian primero en su Rscript y desde ahi los ejecutan en la consola, igual como lo hicieron en las sesiones pasadas de R.
 
+Definimos nuestro directorio de trabajo:
+
+```
+setwd("~")
+```
+
 Cargamos las bibliotecas que vamos a utilizar:
 
 ```
