@@ -274,31 +274,80 @@ if (websiteLive) {
   setEnrichrSite("Enrichr") # Human genes
 }
 ```
+Ahora queremos saber que bases de datos tiene EnrichR disponibles
 
+```
 if (websiteLive) dbs <- listEnrichrDbs()
 View(dbs)
-grep("2023",dbs$libraryName,value=T)
+```
 
+Veamos cuáles están actualizadas a 2023
+```
+grep("2023",dbs$libraryName,value=T)
+```
+
+Seleccionamos un par de bases de datos para nuestro ejercicio
+
+```
 misDBS <- c("GO_Biological_Process_2023","WikiPathway_2023_Human")
+```
+
+Vamos a hacer una prueba con unos genes de ejemplo
+
+```
 if (websiteLive) {
   enriched <- enrichr(c("Runx1", "Gfi1", "Gfi1b", "Spi1", "Gata1", "Kdr"), misDBS)
 }
+```
 
+Para ver los resultados, podemos checar individualmente los resultados de cada base de datos:
+
+```
 if (websiteLive) head(enriched[["GO_Biological_Process_2023"]])
 if (websiteLive) head(enriched[["WikiPathway_2023_Human"]])
+```
 
+Ahora vamos a hacer el mismo ejercicio con los genes que salieron diferencialmente expresados de DESeq2
+
+El primer paso es ponerle los nombres de los genes a nuestra tabla de resultados de DESeq2
+
+```
 topNombres <- merge(as.data.frame(top),geneId_geneName,by.x=0,by.y="gene_id")
+```
 
+Ahora tomamos los nombres de los genes y los analizamos con EnrichR
+
+```
 if (websiteLive) {
   enriched <- enrichr(topNombres$gene_name, misDBS)
 }
+```
+Repetimos la exploración en cada base de datos
 
+```
 if (websiteLive) head(enriched[["GO_Biological_Process_2023"]])
 if (websiteLive) head(enriched[["WikiPathway_2023_Human"]])
+```
 
+Graficamos los resultados de la primera base de datos
+
+```
 if (websiteLive) {
   plotEnrich(enriched[[1]], showTerms = 20, numChar = 40, y = "Count", orderBy = "P.value")
 }
+```
+
+Para guardar nuestra tabla de resultados hacemos lo siguiente:
+
+```
+write.table(enriched[["WikiPathway_2023_Human"]], 
+            file="enriched_WikiPathways_2023.tsv", sep="\t", 
+            quote=F, 
+            col.names=T,
+            row.names=F)
+```
+
+
 GSEA
 
 https://www.youtube.com/watch?v=Mi6u4r0lJvo
