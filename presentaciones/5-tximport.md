@@ -188,6 +188,7 @@ resultsNames(dds)
 res <- results(dds)
 head(res)
 plotMA(res)
+saveRDS(res, "res_dseq2.rds")
 ```
 
 ### Ejercicio para ver como se calcula el log2foldchange
