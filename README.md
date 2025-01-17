@@ -2,4 +2,4 @@
 
 ## github.com/hachepunto/bioinformatics
 
-
+juntas:citosina
