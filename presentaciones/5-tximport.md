@@ -288,15 +288,15 @@ if (websiteLive) dbs <- listEnrichrDbs()
 View(dbs)
 ```
 
-Veamos cuáles están actualizadas a 2025
+Veamos cuáles están actualizadas a 2023
 ```
-grep("2025",dbs$libraryName,value=T)
+grep("2023",dbs$libraryName,value=T)
 ```
 
 Seleccionamos un par de bases de datos para nuestro ejercicio
 
 ```
-misDBS <- c("GO_Biological_Process_2025","WikiPathway_2024_Human")
+misDBS <- c("GO_Biological_Process_2023","WikiPathway_2023_Human")
 ```
 
 Vamos a hacer una prueba con unos genes de ejemplo
